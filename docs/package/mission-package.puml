@@ -1,0 +1,60 @@
+@startuml
+left to right direction
+package "Back-end" {
+    class AppModule {
+    }
+    package database{
+        class DatabaseModule {
+        }
+        package schema {
+            class MissionEntity {
+            }
+            class MissionSchema {
+            }
+            MissionSchema --|> MissionEntity
+        }
+        DatabaseModule *-- schema.MissionSchema
+    }
+
+    package "Missions" {
+        class MissionsController {
+        }
+
+        class MissionsService {
+        }
+
+        class MissionsModule {
+        }
+
+        package "dto" {
+            Class FilterMissionRequest {
+            }
+            Class CreateMissionRequest {
+            }
+            Class UpdateMissionRequest {
+            }
+            Class ListMissionResponse {
+            }
+            Class MissionResponse {
+            }
+            ListMissionResponse -r-o MissionResponse:1..*
+        }
+
+        MissionsModule *-- MissionsController
+        MissionsModule *-- MissionsService
+        MissionsController ..> MissionsService : injected
+        MissionsController ..> dto.FilterMissionRequest 
+        MissionsController ..> dto.CreateMissionRequest 
+        MissionsController ..> dto.UpdateMissionRequest 
+        MissionsController ..> dto.ListMissionResponse 
+        MissionsController ..> dto.MissionResponse 
+        MissionsService .d[hidden].> dto
+    }
+    MissionResponse --|> MissionEntity
+    MissionsModule --* AppModule
+    DatabaseModule --* AppModule
+    MissionSchema <.. MissionsService: injected
+    DatabaseModule <.. MissionsModule
+
+}
+@enduml

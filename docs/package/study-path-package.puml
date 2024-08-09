@@ -1,0 +1,53 @@
+@startuml
+left to right direction
+package "Back-end" {
+    class AppModule {
+    }
+    package database{
+        class DatabaseModule {
+        }
+        package schema {
+
+            class StudyPathSchema {
+            }
+            class StudyPathEntity {
+            }
+
+            StudyPathSchema -r-|> StudyPathEntity
+        }
+        DatabaseModule *-- schema.StudyPathSchema
+    }
+
+    package "StudyPaths" {
+        class StudyPathsController {
+        }
+
+        class StudyPathsService {
+        }
+
+        class StudyPathsModule {
+        }
+
+        package "dto" {
+            Class GetStudyPathRequest {
+            }
+            Class CreateStudyPathRequest {
+            }
+            Class StudyPathResponse {
+            }
+        }
+
+        StudyPathsModule *-- StudyPathsController
+        StudyPathsModule *-- StudyPathsService
+        StudyPathsController .l.> StudyPathsService : injected
+        StudyPathsController ..> dto.GetStudyPathRequest
+        StudyPathsController ..> dto.CreateStudyPathRequest
+        StudyPathsController ..> dto.StudyPathResponse
+    }
+    StudyPathsModule --* AppModule
+    DatabaseModule -u-* AppModule
+    StudyPathSchema <.u. StudyPathsService: injected
+    DatabaseModule <.. StudyPathsModule
+
+}
+@enduml

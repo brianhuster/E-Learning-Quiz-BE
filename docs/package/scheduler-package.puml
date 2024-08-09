@@ -1,0 +1,44 @@
+@startuml
+package "Back-end" {
+    class AppModule {
+    }
+    package QuizSheet{
+        class QuizSheetModule {
+        }
+        class QuizSheetService {
+        }
+        QuizSheetModule *-- QuizSheetService
+    }
+    package Notifications{
+        class NotificationsModule {
+        }
+        class NotificationsService {
+        }
+        NotificationsModule *-- NotificationsService
+    }
+
+    package "Scheduler" {
+        class SchedulerController {
+        }
+
+        class SchedulerService {
+        }
+
+        class SchedulerModule {
+        }
+
+        SchedulerModule *-- SchedulerController
+        SchedulerModule *-- SchedulerService
+        SchedulerController ..> SchedulerService : injected
+
+    }
+    NotificationsModule --* AppModule
+    SchedulerModule -u-* AppModule
+    QuizSheetModule -l-* AppModule
+    QuizSheetService <.. SchedulerService: injected
+    QuizSheetModule <.l. SchedulerModule
+    NotificationsService <.. SchedulerService: injected
+    NotificationsModule <.r. SchedulerModule
+
+}
+@enduml

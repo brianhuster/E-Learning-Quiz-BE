@@ -1,0 +1,12 @@
+@startuml
+!include <C4/C4_Context>
+skinparam packageStyle Rect
+left to right direction
+
+rectangle "Phân rã usecase thi thử" {
+    (Thi thử) as UC1
+    (Chọn kì thi) as UC2
+    UC1 ..> UC2 : <<include>>
+}
+
+:Người dùng: --> UC1

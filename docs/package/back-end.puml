@@ -1,0 +1,89 @@
+@startuml
+left to right direction
+package "E-Learning-Quiz-Be" {
+    package "database" {
+        package schema {
+        }
+    }
+    package "config" {
+    }
+    package "auth" {
+        package authDto {
+            [authRequest]
+            [authResponse]
+        }
+        [auth] ..> [database]
+        [auth] ..> [config]
+    }
+    package "users" {
+        package usersDto {
+            [usersRequest]
+            [usersResponse]
+        }
+        [users] ..> [auth]
+    }
+    package "course" {
+        package courseDto {
+            [courseRequest]
+            [courseResponse]
+        }
+        [course] ..> [auth]
+    }
+    package "missions" {
+        package missionsDto {
+            [missionsRequest]
+            [missionsResponse]
+        }
+        [missions] ..> [auth]
+    }
+    package "notifications" {
+        package notificationsDto {
+            [notificationsRequest]
+            [notificationsResponse]
+        }
+        [notifications] ..> [auth]
+    }
+    package "questions" {
+        package questionsDto {
+            [questionsRequest]
+            [questionsResponse]
+        }
+        [questions] ..> [auth]
+    }
+    package "quiz-sheet" {
+        package quizDto {
+            [quizRequest]
+            [quizResponse]
+        }
+        [quiz-sheet] ..> [auth]
+        [quiz-sheet] ..> [missions]
+    }
+    package "scheduler" {
+        package scheduleDto {
+            [scheduleRequest]
+            [scheduleResponse]
+        }
+        [scheduler] ..> [quiz-sheet]
+        [scheduler] ..> [missions]
+    }
+    package "study-path" {
+        package studyPathDto {
+            [studyPathRequest]
+            [studyPathResponse]
+        }
+        package studyPathEntity {
+        }
+        [study-path] ..> [quiz-sheet]
+    }
+    [database] ..> [config]
+    [course] ..> [database]
+    [missions] ..> [database]
+    [notifications] ..> [database]
+    [questions] ..> [database]
+    [quiz-sheet] ..> [database]
+    [scheduler] ..> [database]
+    [study-path] ..> [database]
+    [study-path] ..> [auth]
+}
+
+@enduml

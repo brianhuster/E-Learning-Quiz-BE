@@ -1,0 +1,58 @@
+@startuml
+left to right direction
+package "Back-end" {
+    class AppModule {
+    }
+    package database{
+        class DatabaseModule {
+        }
+        package schema {
+            class NotificationEntity {
+            }
+            class NotificationSchema {
+            }
+            NotificationSchema --|> NotificationEntity
+        }
+        DatabaseModule *-- schema.NotificationSchema
+    }
+
+    package "Notifications" {
+        class NotificationsController {
+        }
+
+        class NotificationsService {
+        }
+
+        class NotificationsModule {
+        }
+
+        package "dto" {
+            Class FilterNotificationRequest {
+            }
+            Class ReportQuestionRequest {
+            }
+            Class MarkReadNotificationRequest {
+            }
+            Class ListNotificationResponse {
+            }
+            Class NotificationResponse {
+            }
+            ListNotificationResponse -r-o NotificationResponse:1..*
+        }
+
+        NotificationsModule *-- NotificationsController
+        NotificationsModule *-- NotificationsService
+        NotificationsController ..> NotificationsService : injected
+        NotificationsController ..> dto.FilterNotificationRequest 
+        NotificationsController ..> dto.ReportQuestionRequest 
+        NotificationsController ..> dto.MarkReadNotificationRequest 
+        NotificationsController ..> dto.ListNotificationResponse 
+    }
+    NotificationResponse --|> NotificationEntity
+    NotificationsModule --* AppModule
+    DatabaseModule --* AppModule
+    NotificationSchema <.. NotificationsService: injected
+    DatabaseModule <.. NotificationsModule
+
+}
+@enduml

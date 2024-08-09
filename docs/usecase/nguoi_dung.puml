@@ -1,0 +1,20 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor "Quản Trị Viên" as admin
+
+rectangle "Quản Lý Người Dùng" {
+  usecase "Cấp Mật Khẩu Mới" as UC1
+  usecase "Đổi Thông Tin Người Dùng" as UC2
+  usecase "Phân Quyền" as UC3
+  usecase "Xóa Tài Khoản" as UC4
+  usecase "Quản Lý Người Dùng" as UC0
+    
+  UC0 --> UC1 
+  UC0 --> UC2 
+  UC0 --> UC3 
+  UC0 --> UC4 
+}
+admin --> UC0
+
+@enduml

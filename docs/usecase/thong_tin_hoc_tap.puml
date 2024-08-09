@@ -1,0 +1,14 @@
+@startuml
+
+left to right direction
+actor HocVien as "Người dùng"
+
+rectangle "Thông Tin Học Tập" {
+  (Xem thông tin học tập) as UC0
+  UC0 --> (Xem Tiến Độ Học Tập)
+  UC0 --> (Xem Thời Khóa Biểu)
+  UC0 --> (Xem Lộ Trình Học)
+  HocVien --> UC0
+}
+
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+left to right direction
+actor "Người dùng" as HocSinh
+
+rectangle "Hệ thống nhắc lại kiến thức" {
+    usecase "Nhắc lại kiến thức" as LamBai
+    usecase "Làm bài nhắc lại kiến thức" as LamBai1
+    usecase "Nhận thông báo ôn tập kiến thức" as ThongBao
+    usecase "Kiểm tra lần cuối học" as KiemTraLanCuoi
+    usecase "Kiểm tra số lần đã nhắc lại" as KiemTraSoLan
+
+    KiemTraLanCuoi <.. ThongBao : <<include>>
+    KiemTraSoLan <.. ThongBao : <<include>>
+    ThongBao .> LamBai : <<include>>
+    LamBai1 <.. LamBai : <<include>>
+}
+
+HocSinh --> LamBai
+
+@enduml

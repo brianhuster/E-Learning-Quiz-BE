@@ -1,0 +1,13 @@
+@startuml
+actor FrontEnd as "Front-end"
+entity BackEnd as "Back-End"
+database Database as "Database"
+entity GoogleScheduler as "Google-scheduler"
+
+FrontEnd -> BackEnd : Request (UI actions)
+BackEnd -> Database : Query/Update
+Database --> BackEnd : Response
+GoogleScheduler -> BackEnd : POST /scheduler
+BackEnd --> GoogleScheduler : Response
+
+@enduml

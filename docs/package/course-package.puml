@@ -1,0 +1,48 @@
+@startuml
+left to right direction
+package "Back-end" {
+    class AppModule {
+    }
+    package database{
+        class DatabaseModule {
+        }
+        package schema {
+            class CourseEntity {
+            }
+            class CourseSchema {
+            }
+            CourseSchema --|> CourseEntity
+        }
+        DatabaseModule *-- schema.CourseSchema
+    }
+
+    package "Courses" {
+        class CoursesController {
+        }
+
+        class CoursesService {
+        }
+
+        class CoursesModule {
+        }
+
+        package "dto" {
+            Class FilterCourseRequest {
+            }
+        }
+
+        CoursesModule *-- CoursesController
+        CoursesModule *-- CoursesService
+        CoursesController ..> CoursesService : injected
+        CoursesController ..> dto.CourseResponse 
+        CoursesController ..> dto.FilterCourseRequest 
+        CoursesService .d[hidden].> dto
+    }
+    CourseResponse --|> CourseEntity
+    CoursesModule --* AppModule
+    DatabaseModule --* AppModule
+    CourseSchema <..CoursesService: inject
+    DatabaseModule <..CoursesModule
+
+}
+@enduml

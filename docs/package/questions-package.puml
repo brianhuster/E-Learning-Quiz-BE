@@ -1,0 +1,60 @@
+@startuml
+left to right direction
+package "Back-end" {
+    class AppModule {
+    }
+    package database{
+        class DatabaseModule {
+        }
+        package schema {
+            class QuestionEntity {
+            }
+            class QuestionSchema {
+            }
+            QuestionSchema --|> QuestionEntity
+        }
+        DatabaseModule *-- schema.QuestionSchema
+    }
+
+    package "Question" {
+        class QuestionController {
+        }
+
+        class QuestionService {
+        }
+
+        class QuestionModule {
+        }
+
+        package "dto" {
+            Class FilterQuestionRequest {
+            }
+            Class CreateQuestionRequest {
+            }
+            Class UpdateQuestionRequest {
+            }
+            Class ListQuestionResponse {
+            }
+            Class QuestionResponse {
+            }
+            ListQuestionResponse -r-o QuestionResponse:1..*
+        }
+
+        QuestionModule *-- QuestionController
+        QuestionModule *-- QuestionService
+        QuestionController ..> QuestionService : injected
+        QuestionController ..> dto.FilterQuestionRequest 
+        QuestionController ..> dto.CreateQuestionRequest 
+        QuestionController ..> dto.UpdateQuestionRequest 
+        QuestionController ..> dto.ListQuestionResponse 
+        QuestionController ..> dto.QuestionResponse 
+        QuestionService .d[hidden].> dto
+    }
+    QuestionResponse --|> QuestionEntity
+    QuestionModule --* AppModule
+    DatabaseModule --* AppModule
+    QuestionSchema <.. QuestionService: inject
+    DatabaseModule <.. QuestionModule
+
+}
+@enduml

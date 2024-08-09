@@ -1,0 +1,37 @@
+steps:
+  # run from the start
+  # this will decrypt the encrypted file and secret
+  - id: prepare-secret
+    name: 'gcr.io/cloud-builders/gcloud'
+    waitFor: ['-']
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud secrets versions access latest --project=${PROJECT_ID} --secret=${_SERVICE_NAME} --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env
+  # this builds app docker image
+  - id: build
+    name: 'gcr.io/kaniko-project/executor:latest'
+    args:
+      - --dockerfile=./cicd/Dockerfile
+      - --destination=${_CONTAINER_IMAGE_NAME}
+      - --cache=${_CONTAINER_BUILD_CACHE_ENABLED}
+      - --cache-ttl=${_CONTAINER_BUILD_CACHE_TTL}
+  # deploy container image to Cloud Run
+  - id: deploy
+    name: gcr.io/cloud-builders/gcloud
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        gcloud run deploy ${_SERVICE_NAME} \
+          --platform ${_PLATFORM} \
+          --region ${_DEPLOY_REGION}\
+          --allow-unauthenticated \
+          --image ${_CONTAINER_IMAGE_NAME} \
+
+substitutions:
+  _ENV: production
+  _CONTAINER_IMAGE_NAME: gcr.io/${PROJECT_ID}/${_SERVICE_NAME}
+  _CONTAINER_BUILD_CACHE_ENABLED: 'true'
+  _CONTAINER_BUILD_CACHE_TTL: 8760h

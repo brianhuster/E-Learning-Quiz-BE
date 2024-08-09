@@ -1,0 +1,29 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+
+rectangle "Phân rã làm nhiệm vụ học tập" {
+  usecase "Báo cáo sai đề" as UC4
+  usecase "Đọc lý thuyết" as UC1
+  usecase "Làm bài tập theo mức" as UC2
+  usecase "Làm bài tập kết dạng" as UC3
+  usecase "Mở gợi ý" as UC5
+  usecase "Xem kết quả" as UC6
+  usecase "Xem đáp án" as UC7
+(Làm nhiệm vụ học tập) as nvht
+
+  UC2 <.l. UC5 : <<extend>>\n(Chỉ 2 câu đầu)
+  UC2 <.. UC4 : <<extend>>
+  UC3 <.. UC4 : <<extend>>
+  UC6 <.. UC7 : <<extend>>
+  UC7 <.l. UC4 : <<extend>>
+  UC6 <.. UC2 : <<include>>
+  UC6 <.. UC3 : <<include>>
+}
+
+nvht --|> UC1
+nvht --|> UC2
+nvht --|> UC3
+:Người dùng: --> nvht
+@enduml

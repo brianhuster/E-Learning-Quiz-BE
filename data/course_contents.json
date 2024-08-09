@@ -1,0 +1,45 @@
+{
+    "courseName": "Xác suất thống kê - Đại Học Bách Khoa Hà Nội",
+    "chapters": [
+      {
+        "chapterName": "Sự kiện ngẫu nhiên và phép tính xác suất",
+        "chapterNumber": 1,
+        "figures": [
+          {
+            "figureName": "Bài toán đếm",
+            "figureNumber": 1
+          },
+          {
+            "figureName": "Công thức xác suất cổ điển",
+            "figureNumber": 2
+          },
+          {
+            "figureName": "Công thức xác suất có điều kiện",
+            "figureNumber": 3
+          },
+          {
+            "figureName": "Công thức xác suất đầy đủ",
+            "figureNumber": 4
+          },
+          {
+            "figureName": "Công thức Béc-nu-li",
+            "figureNumber": 5
+          },
+          {
+            "figureName": "Công thức Bey-ét",
+            "figureNumber": 6
+          }
+        ]
+      },
+      {
+        "chapterName": "Biến ngẫu nhiên và quy luật phân phối xác suất",
+        "chapterNumber": 2,
+        "figures": [
+          {
+            "figureName": "Hàm phân phối xác suất",
+            "figureNumber": 1
+          }
+        ]
+      }
+    ]
+  }

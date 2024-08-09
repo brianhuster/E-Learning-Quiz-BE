@@ -1,0 +1,66 @@
+@startuml
+left to right direction
+package "Back-end" {
+    package "auth" {
+        class AuthModule {
+        }
+        class AuthController {
+        }
+
+        class AuthService {
+        }
+
+        class AuthGuard {
+        }
+        class RoleGuard {
+        }
+        package dto {
+            class LoginRequest {
+            }
+            class LoginResponse {
+            }
+            class SignInRequest {
+            }
+            class SignInResponse {
+            }
+        }
+        AuthController ..> dto.LoginRequest
+        AuthController ..> dto.LoginResponse
+        AuthController ..> dto.SignInRequest
+        AuthController ..> dto.SignInResponse
+        AuthController ..> AuthService : injected
+        AuthModule *-- AuthController
+        AuthModule *-- AuthService
+        AuthModule *-- AuthGuard
+        AuthModule *-r- RoleGuard
+        AuthService -l[hidden]-> AuthController
+    }
+
+    class AppModule {
+    }
+    package "OtherPublicControllers" {
+        class OtherModule {
+        }
+        class OtherController {
+        }
+        OtherModule *-- OtherController
+    }
+    package Users {
+        class UsersModule {
+        }
+        class UsersService {
+        }
+        UsersModule *-l- UsersService
+
+    }
+    AuthModule .u.> UsersModule
+    AuthModule <.r. OtherModule
+    AuthService ..> UsersService: injected
+    AppModule *-- UsersModule
+    AppModule *-- AuthModule
+    AppModule *-- OtherModule
+    OtherController .r.> AuthGuard
+    OtherController ..> RoleGuard
+
+}
+@enduml

@@ -1,0 +1,65 @@
+@startuml
+' Adjust diagram orientation to optimize space
+skinparam packageStyle Rect
+' Adjust the overall size of the diagram
+skinparam scale 0.9
+
+package "Hệ thống e-learning" <<Hệ thống>> {
+    package "Hệ thống" <<Module>> {
+        [Thông báo] -r[hidden]-> [Xác thực]
+        [Quản lý câu hỏi] -r[hidden]-> [Quản lý \n người dùng]
+        [Hide hide hjide hjideee ] $hide
+        [Hide hide hjide hjideee ] -l[hidden]->[Quản lý \n người dùng]
+    }
+    package "Cá nhân hóa lộ trình" <<Module>> {
+        [Test đầu vào] ->[Machine learning]: data flow
+        [Machine learning] <- [Nhập đầu vào] : data flow
+    }
+    [Hệ thống] -d[hidden]->[Cá nhân hóa lộ trình]
+
+    package "Lập lịch" <<Module>> {
+        [Ôn bài cũ]
+    }
+
+    [Lập lịch] -r[hidden]--> [Cá nhân hóa lộ trình]
+    
+    package "Làm bài kiểm tra" <<Module>> {
+        [3] $hide
+        [3]  -r[hidden]-> [Xây dựng \n bài kiểm tra] 
+        [444] $hide
+        [444] -r[hidden]-> [3]
+        [Xây dựng \n bài kiểm tra]
+        [Làm bài]
+        [Đánh giá]
+        [Làm bài] -l-> [Xây dựng \n bài kiểm tra]
+        [Làm bài] -r->[Đánh giá]
+        [Comp3] $hide
+        [Comp4] $hide
+
+    }
+    [Cá nhân hóa lộ trình] -d[hidden]-> [Làm bài kiểm tra] 
+    
+    package "Nhiệm vụ học tập" <<Module>> {
+        [Lý thuyết] -r[hidden]-->[Bài tập theo \n theo mức độ]
+        [Bài kết \n thúc dạng] 
+    }
+    [Làm bài kiểm tra] -d[hidden]-> [Nhiệm vụ học tập] 
+    
+    package "Tiện ích" <<Module>> {
+        [Kế hoạch \n học tập]
+        [Thi thử]
+        [Kế hoạch \n học tập]
+        [Thi thử] 
+    }
+
+    [Tiện ích] -r[hidden]-> [Nhiệm vụ học tập]
+    hide $hide
+    [Bài tập theo \n theo mức độ] -u-> [Làm bài]
+    [Bài kết \n thúc dạng] -u-> [Làm bài]
+    [Thi thử] -u-> [Làm bài]
+    [Test đầu vào] -d-> [Làm bài]
+    [Ôn bài cũ] -d-> [Làm bài]
+
+}
+
+@enduml

@@ -1,0 +1,103 @@
+@startuml
+
+entity "UserEntity" {
+  +email: string # PK
+  --
+  firstName: string
+  lastName: string
+  hashedPassword: string
+  role: string
+}
+
+entity "MissionEntity" as Mission {
+  +_id: ObjectId # PK
+  --
+  userId: ObjectId # FK 
+  courseId: ObjectId # FK 
+  id: string
+  title: string
+  content?: string
+  isComplete: boolean
+  dueDate: Date
+}
+
+entity "NotificationEntity" as Notification {
+  +_id: ObjectId # PK
+  --
+  title: string
+  message: string
+  type: number
+  isRead: boolean
+  userId: ObjectId # FK
+  forAdmin: boolean
+}
+
+entity "QuizAnswerSheetEntity" as QuizAnswerSheet {
+  +_id: ObjectId # PK
+  --
+  user?: ObjectId # FK 
+  chapter?: number
+  figure?: number
+  level?: number
+  studyPath?: ObjectId # FK 
+  configType: number
+  quizDuration: number
+  questions: ObjectId[] # FK
+  submittedAt: Date
+  score: number
+  createdAt: Date
+  updatedAt: Date
+}
+
+entity "LeanerQuestionEntity" as LeanerQuestion {
+  +_id: ObjectId # PK
+  --
+  question: ObjectId # FK 
+  histories: ObjectId[] # FK 
+  correct: boolean
+  isRandom: boolean
+  isWeak: boolean
+}
+
+entity "AnswerHistoryEntity" as AnswerHistory {
+  +_id: ObjectId # PK
+  --
+  answers: unknown[]
+  duration: number
+  correct: boolean
+}
+
+entity "StudyStatusEntity" as StudyStatus {
+  +_id: ObjectId # PK
+  --
+  studyPath: ObjectId # FK 
+  element: string
+  status: STUDY_STATUS
+  cntRepeat?: number
+  lastStudy?: Date
+}
+
+entity "StudyPathEntity" as StudyPathEntity {
+  +_id: ObjectId # PK
+  --
+  user: ObjectId # FK  
+  score: string
+  period: number
+  remainDays: number
+  studiedChapter: number[]
+  unlockIndex: number
+  mustStudyToContinue: string[]
+  course: ObjectId # FK
+  content: StudyStatus[] # FK 
+  timeScheduler: Date
+}
+
+UserEntity ||--o{ Mission : "assigned"
+UserEntity ||--o{ Notification : "receives"
+UserEntity ||--o{ QuizAnswerSheet : "completes"
+StudyPathEntity ||--|| QuizAnswerSheet : "follows"
+QuizAnswerSheet ||--o{ LeanerQuestion : "includes"
+LeanerQuestion ||--o{ AnswerHistory : "has"
+UserEntity ||--o{ StudyPathEntity : "has"
+
+@enduml

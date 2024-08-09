@@ -1,0 +1,18 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Người dùng" as user
+
+rectangle "Phân rã usecase lấy tài liệu học tập" {
+  usecase "Lấy tài liệu học tập" as UC1
+  usecase "Đọc lý thuyết" as UC2
+  usecase "Đọc thẻ ghi nhớ" as UC3
+  (Làm nhiệm vụ học tập) as nvht
+  UC2 -|> nvht
+  UC1 <.. UC2 : "Thông qua"
+  UC1 <.. UC3 : "Thông qua"
+}
+
+user --> UC1
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Người dùng" as user
+actor "Quản trị viên" as admin
+
+rectangle "Phản Ánh Đề Sai" {
+  usecase "Báo cáo sai đề" as UC1
+  usecase "Nhập lý do" as UC3
+  usecase "Gửi thông báo cho admin" as UC2
+
+  user --> UC1
+  UC3 <-- UC1 : <<include>>
+  UC1 --> UC2 : <<include>>
+}
+
+admin <-- UC2 
+@enduml

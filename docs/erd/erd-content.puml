@@ -1,0 +1,46 @@
+@startuml
+
+entity "CourseEntity" as Course {
+  +_id: ObjectId # PK
+  --
+  courseName: string
+}
+
+entity "CourseChapterEntity" as CourseChapter {
+  +_id: ObjectId # PK
+  chapterName: string
+  chapterNumber: number
+  courseId: ObjectId # FK
+}
+
+entity "CourseFigureEntity" as CourseFigure {
+  +_id: ObjectId # PK
+  figureName: string
+  figureNumber: number
+  chapterId: ObjectId # FK
+}
+
+entity "QuizQuestionEntity" as QuizQuestionEntity {
+  +_id: ObjectId # PK
+  --
+  course: ObjectId # FK
+  type: number
+  question: string
+  chapter: number
+  figure: number
+  level: number
+  note: string
+  point: number
+  config: Mixed
+  createdAt: Date
+  updatedAt: Date
+  guideImg: string[]
+  solveImg: string[]
+  images: string[]
+}
+
+Course ||--{ CourseChapter : "contains"
+CourseChapter ||--{ CourseFigure : "contains"
+QuizQuestionEntity }-- Course : "includes"
+
+@enduml

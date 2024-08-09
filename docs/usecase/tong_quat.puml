@@ -1,0 +1,44 @@
+@startuml
+!include <C4/C4_Context>
+skinparam packageStyle Rect
+left to right direction
+
+rectangle "Hệ thống E-learning" {
+    package "Quản trị hệ thống" {
+        (Quản lý người dùng)
+        (Quản lý ngân hàng câu hỏi)
+    }
+    package "Hỗ trợ học tập" {
+        (Nhận thông báo)
+        (Xây dựng lộ trình học)
+        (Làm nhiệm vụ học tập)
+        (Lấy tài liệu học tập)
+        (Phản ánh đề sai)
+        (Làm bài thi thử)
+        (Nhắc lại kiến thức)
+        (Xem thông tin học tập)
+    }
+    [Quản trị hệ thống] -u[hidden]-> [Hỗ trợ học tập]
+    package "Xác thực người dùng" {
+        (Đăng kí)
+        (Đăng nhập)
+    }
+}
+    :Khách: --> (Đăng kí)
+    :Khách: --> (Đăng nhập)
+
+    :Người dùng:-l-|> :Khách: : Đã Đăng nhập
+    :Người dùng: --> (Nhận thông báo)
+    :Người dùng: --> (Xây dựng lộ trình học)
+    :Người dùng: --> (Làm nhiệm vụ học tập)
+    :Người dùng: --> (Lấy tài liệu học tập)
+    :Người dùng: --> (Phản ánh đề sai)
+    :Người dùng: --> (Làm bài thi thử)
+    :Người dùng: --> (Nhắc lại kiến thức)
+    :Người dùng: --> (Xem thông tin học tập)
+
+    :Quản trị viên: -l-|> :Người  dùng:
+    :Quản trị viên: -u-> (Quản lý người dùng)
+    :Quản trị viên: -u-> (Quản lý ngân hàng câu hỏi)
+
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+!include <C4/C4_Context>
+skinparam packageStyle Rect
+left to right direction
+
+rectangle "Nhận thông báo" {
+    (Nhận thông báo ) as main
+    (Đọc thông báo) <.. main: <<extend>>
+    (Nhắc bài tập \n ôn tập) as nhac
+    (Nhận Thông báo sai đề) as sai
+    nhac --|> main
+    nhac ..> (Làm bài nhắc lại kiến thức): <<extend>>
+    sai --|> main
+    sai ..> (Sửa câu hỏi): <<extend>>
+    :Người dùng: --> nhac
+    :Quản trị viên: --> sai
+}
+
+@enduml

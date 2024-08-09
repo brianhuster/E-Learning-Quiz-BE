@@ -1,0 +1,60 @@
+@startuml
+left to right direction
+package "Back-end" {
+    class AppModule {
+    }
+    package database{
+        class DatabaseModule {
+        }
+        package schema {
+            class UserEntity {
+            }
+            class UserSchema {
+            }
+            UserSchema --|> UserEntity
+        }
+        DatabaseModule *-- schema.UserSchema
+    }
+
+    package "Users" {
+        class UsersController {
+        }
+
+        class UsersService {
+        }
+
+        class UsersModule {
+        }
+
+        package "dto" {
+            Class FilterUserRequest {
+            }
+            Class CreateUserRequest {
+            }
+            Class UpdateUserRequest {
+            }
+            Class ListUserResponse {
+            }
+            Class UserResponse {
+            }
+            ListUserResponse -r-o UserResponse:1..*
+        }
+
+        UsersModule *-- UsersController
+        UsersModule *-- UsersService
+        UsersController ..> UsersService : injected
+        UsersController ..> dto.FilterUserRequest 
+        UsersController ..> dto.CreateUserRequest 
+        UsersController ..> dto.UpdateUserRequest 
+        UsersController ..> dto.ListUserResponse 
+        UsersController ..> dto.UserResponse 
+        UsersService .d[hidden].> dto
+    }
+    UserResponse --|> UserEntity
+    UsersModule --* AppModule
+    DatabaseModule --* AppModule
+    UserSchema <.. UsersService: injected
+    DatabaseModule <.. UsersModule
+
+}
+@enduml

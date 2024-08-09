@@ -1,0 +1,87 @@
+@startuml
+package "Back-end" {
+    class AppModule {
+    }
+    package database{
+        class DatabaseModule {
+        }
+        package schema {
+            class QuizSheetEntity {
+            }
+            class QuizSheetSchema {
+            }
+            class QuestionEntity {
+            }
+            class QuestionSchema {
+            }
+        }
+        DatabaseModule *-- schema.QuizSheetSchema
+        schema.QuizSheetSchema --|> schema.QuizSheetEntity
+        DatabaseModule *-- schema.QuestionSchema
+        schema.QuestionSchema --|> schema.QuestionEntity
+        schema.QuestionEntity <-- schema.QuizSheetEntity:1..n
+    }
+
+    package "QuizSheets" {
+        class QuizSheetsController {
+        }
+
+        class QuizSheetsService {
+        }
+
+        class QuizSheetSubmitActionService {
+        }
+        class QuizSheetConfigService {
+        }
+        class QuizSheetsModule {
+        }
+
+        package "dto" {
+        }
+        QuizSheetsModule *-- QuizSheetsController
+        QuizSheetsModule *-- QuizSheetsService
+        QuizSheetsModule *-- QuizSheetConfigService
+        QuizSheetsModule *-- QuizSheetSubmitActionService
+        QuizSheetsService <.. QuizSheetConfigService: injected
+        QuizSheetsService <.. QuizSheetSubmitActionService: injected
+        QuizSheetsController ..> QuizSheetsService : injected
+        QuizSheetsController ..> dto
+
+    }
+    package "Course" {
+        class CourseService {
+        }
+        class CourseModule {
+        }
+        CourseModule *-r- CourseService
+    }
+    package "StudyPath" {
+        class StudyPathModule {
+        }
+        class StudyPathService {
+        }
+        StudyPathModule *-r- StudyPathService
+
+    }
+    package "Mission" {
+        class MissionModule {
+        }
+        class MissionService {
+        }
+        MissionModule *-r- MissionService
+    }
+    class "AppModule " as AppModule2 {
+    }
+    QuizSheetsModule -u-* AppModule2
+    DatabaseModule -r-* AppModule2
+    CourseModule --* AppModule
+    StudyPathModule --* AppModule
+    MissionModule --* AppModule
+    QuizSheetSchema <.. QuizSheetsService: injected
+    QuestionSchema <.. QuizSheetsService: injected
+    DatabaseModule <.. QuizSheetsModule
+    QuizSheetConfigService ..> CourseService: injected
+    QuizSheetSubmitActionService ..> MissionService : injected
+    QuizSheetSubmitActionService ..> StudyPathService : injected
+}
+@enduml

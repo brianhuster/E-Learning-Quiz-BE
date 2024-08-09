@@ -1,0 +1,149 @@
+@startuml
+
+entity "UserEntity" {
+  +email: string # PK
+  --
+  firstName: string
+  lastName: string
+  hashedPassword: string
+  role: string
+}
+
+entity "CourseEntity" as Course {
+  +_id: ObjectId # PK
+  --
+  courseName: string
+}
+
+entity "CourseChapterEntity" as CourseChapter {
+  +_id: ObjectId # PK
+  chapterName: string
+  chapterNumber: number
+  courseId: ObjectId # FK
+}
+
+entity "CourseFigureEntity" as CourseFigure {
+  +_id: ObjectId # PK
+  figureName: string
+  figureNumber: number
+  chapterId: ObjectId # FK
+}
+
+entity "MissionEntity" as Mission {
+  +_id: ObjectId # PK
+  --
+  userId: ObjectId # FK 
+  courseId: ObjectId # FK 
+  id: string
+  title: string
+  content?: string
+  isComplete: boolean
+  dueDate: Date
+}
+
+entity "NotificationEntity" as Notification {
+  +_id: ObjectId # PK
+  --
+  title: string
+  message: string
+  type: number
+  isRead: boolean
+  userId: ObjectId # FK
+  forAdmin: boolean
+}
+
+entity "QuizQuestionEntity" as QuizQuestionEntity {
+  +_id: ObjectId # PK
+  --
+  course: ObjectId # FK
+  type: number
+  question: string
+  chapter: number
+  figure: number
+  level: number
+  note: string
+  point: number
+  config: Mixed
+  createdAt: Date
+  updatedAt: Date
+  guideImg: string[]
+  solveImg: string[]
+  images: string[]
+}
+
+entity "QuizAnswerSheetEntity" as QuizAnswerSheet {
+  +_id: ObjectId # PK
+  --
+  user?: ObjectId # FK 
+  chapter?: number
+  figure?: number
+  level?: number
+  studyPath?: ObjectId # FK 
+  configType: number
+  quizDuration: number
+  questions: ObjectId[] # FK
+  submittedAt: Date
+  score: number
+  createdAt: Date
+  updatedAt: Date
+}
+
+entity "LeanerQuestionEntity" as LeanerQuestion {
+  +_id: ObjectId # PK
+  --
+  question: ObjectId # FK 
+  histories: ObjectId[] # FK 
+  correct: boolean
+  isRandom: boolean
+  isWeak: boolean
+}
+
+entity "AnswerHistoryEntity" as AnswerHistory {
+  +_id: ObjectId # PK
+  --
+  answers: unknown[]
+  duration: number
+  correct: boolean
+}
+
+entity "StudyStatusEntity" as StudyStatus {
+  +_id: ObjectId # PK
+  --
+  studyPath: ObjectId # FK 
+  element: string
+  status: STUDY_STATUS
+  cntRepeat?: number
+  lastStudy?: Date
+}
+
+entity "StudyPathEntity" as StudyPathEntity {
+  +_id: ObjectId # PK
+  --
+  user: ObjectId # FK  
+  score: string
+  period: number
+  remainDays: number
+  studiedChapter: number[]
+  unlockIndex: number
+  mustStudyToContinue: string[]
+  course: ObjectId # FK
+  content: StudyStatus[] # FK 
+  timeScheduler: Date
+}
+
+Course ||--{ CourseChapter : "contains"
+CourseChapter ||--{ CourseFigure : "contains"
+UserEntity ||--o{ Mission : "assigned"
+Course ||--o{ Mission : "includes"
+UserEntity ||--o{ Notification : "receives"
+QuizQuestionEntity ||--|| LeanerQuestion : "includes"
+
+UserEntity ||--o{ QuizAnswerSheet : "completes"
+StudyPathEntity ||--|| QuizAnswerSheet : "follows"
+QuizAnswerSheet ||--o{ LeanerQuestion : "includes"
+LeanerQuestion ||--o{ AnswerHistory : "has"
+UserEntity ||--o{ StudyPathEntity : "has"
+Course ||--o{ StudyPathEntity : "includes"
+StudyPathEntity ||--o{ StudyStatus : "comprises"
+QuizQuestionEntity }-- Course : "includes"
+@enduml
